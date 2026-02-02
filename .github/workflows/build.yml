@@ -1,4 +1,4 @@
-name: Build for Linux x86_64
+name: Build for Linux x86_64 (Container Mode)
 
 on:
   workflow_dispatch: 
@@ -6,27 +6,28 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    # 使用官方 Rust 镜像环境，内置了所有开发工具
+    container:
+      image: rust:latest
+
     steps:
       - name: Checkout Source
         uses: actions/checkout@v4
         with:
-          submodules: recursive # 关键点：递归拉取所有依赖的子模块
+          submodules: recursive
 
-      - name: Install System Dependencies
+      - name: Install Build Essentials
         run: |
-          sudo apt-get update
-          sudo apt-get install -y protobuf-compiler pkg-config libssl-dev
-
-      - name: Install Rust
-        uses: dtolnay/rust-toolchain@stable
+          apt-get update
+          apt-get install -y protobuf-compiler pkg-config libssl-dev cmake
 
       - name: Build Binary
         run: |
-          # --locked 确保使用项目指定的依赖版本，防止版本冲突
-          cargo build --release --locked
+          # 加上 --verbose 可以看到具体哪里报错
+          cargo build --release --locked --verbose
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: braiins-proxy-x86-fixed
+          name: braiins-proxy-x86-container
           path: target/release/braiins-farm-proxy
