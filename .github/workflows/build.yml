@@ -1,4 +1,4 @@
-name: Build for Linux x86_64 (Container Mode)
+name: Build for Linux x86_64
 
 on:
   workflow_dispatch: 
@@ -6,9 +6,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    # 使用官方 Rust 镜像环境，内置了所有开发工具
-    container:
-      image: rust:latest
 
     steps:
       - name: Checkout Source
@@ -16,18 +13,19 @@ jobs:
         with:
           submodules: recursive
 
-      - name: Install Build Essentials
+      - name: Install Dependencies
         run: |
-          apt-get update
-          apt-get install -y protobuf-compiler pkg-config libssl-dev cmake
+          sudo apt-get update
+          sudo apt-get install -y protobuf-compiler pkg-config libssl-dev cmake
 
       - name: Build Binary
         run: |
-          # 加上 --verbose 可以看到具体哪里报错
+          # 如果 Cargo.toml 不在根目录，请先 cd 进入对应目录
           cargo build --release --locked --verbose
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: braiins-proxy-x86-container
+          name: linux-x86_64-binary
+          # 确认编译出的二进制文件名是否为 braiins-farm-proxy
           path: target/release/braiins-farm-proxy
