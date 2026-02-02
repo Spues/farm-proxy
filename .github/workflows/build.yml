@@ -1,0 +1,32 @@
+name: Build for R2S (ARM64)
+
+on:
+  workflow_dispatch: # 允许手动点击按钮开始编译
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: aarch64-unknown-linux-gnu
+
+      - name: Install Cross-Compiler
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y gcc-aarch64-linux-gnu
+
+      - name: Build Binary
+        run: |
+          # 设置链接器并编译
+          export CARGO_TARGET_AARCH64_UNKNOWN_LINUX_GNU_LINKER=aarch64-linux-gnu-gcc
+          cargo build --release --target aarch64-unknown-linux-gnu
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: braiins-proxy-r2s
+          path: target/aarch64-unknown-linux-gnu/release/braiins-farm-proxy
