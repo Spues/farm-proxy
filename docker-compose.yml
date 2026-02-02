@@ -5,7 +5,7 @@ volumes:
   scanner_data: {}
 services:
   farm-proxy-configurator:
-    image: braiinssystems/farm-proxy:24.06
+    image: braiinssystems/farm-proxy:26.02 # Will be replaced with braiinssystems/farm-proxy:TAG upon public release
     container_name: farm-proxy-configurator
     environment:
       - HTTP_SOCKET_OVERRIDE=farm-proxy:8080
@@ -17,7 +17,7 @@ services:
     depends_on:
       - farm-proxy
   farm-proxy:
-    image: braiinssystems/farm-proxy:24.06
+    image: braiinssystems/farm-proxy:26.02 # Will be replaced with braiinssystems/farm-proxy:TAG upon public release
     container_name: farm-proxy
     command: ["run"]
     environment:
@@ -47,7 +47,7 @@ services:
       retries: 2
       start_period: 2s
   farm-proxy-gui:
-    image: "node:20.11-slim"
+    image: "node:24.13.0-slim"
     container_name: farm-proxy-gui
     working_dir: "/usr/src/app"
     command: "node --env-file=.env build/server/server.cjs"
@@ -105,6 +105,7 @@ services:
     volumes:
       - grafana_data:/var/lib/grafana
       - ./monitoring/grafana/provisioning:/etc/grafana/provisioning
+      - ./monitoring/grafana/icons:/usr/share/grafana/public/img/custom
     environment:
       #- GF_SECURITY_ADMIN_USER=admin
       #- GF_SECURITY_ADMIN_PASSWORD=admin

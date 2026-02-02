@@ -119,7 +119,7 @@
               "showLineNumbers": false,
               "showMiniMap": false
             },
-            "content": "<table width=\"100%\" style:\" border: none !important; table-layout: fixed; \" id=\"bps-table\">\n<tr>\n<td style=\"text-align: center; padding: 10px 0; width:50%;\"><a href=\"https://braiins.com/os/plus?utm_source=Grafana&utm_medium=Dashboard_panel\"  target=\"_blank\"><img src=\"https://design.braiins.com/assets/img/logos/braiins-os-logo-white-rgb.svg?h=d916fefc6e6db6f767d1c8ee4c384270\" height=\"25px\" align=\"center\"></a></td>\n<td style=\"text-align: center; padding: 10px 0; width:50%;\"><a href=\"https://braiins.com/pool\"  target=\"_blank\"><img src=\"https://braiins.visualbook.pro/assets/img/logos/braiins-pool-logo-reverse-rgb.svg\" height=\"25px\"></a></td>\n</tr>\n<tr>\n<td style=\"text-align: center; padding: 10px 0;\"><a href=\"https://braiins.com/manager?utm_source=Grafana&utm_medium=Dashboard_panel\"  target=\"_blank\" style=\"display:block\"><img src=\"https://design.braiins.com/assets/img/logos/White/braiins-manager-logo-white-rgb.svg?h=d15f53cda7c1dea472278ae4a0606849\" height=\"25px\"></a></td>\n<td style=\"text-align: center; padding: 10px 0;\"><a href=\"https://insights.braiins.com/?utm_source=Grafana&utm_medium=Dashboard_panel\"  target=\"_blank\" style=\"display:block\"><img src=\"https://design.braiins.com/assets/img/logos/braiins-insights-logo-on-dark-background-rgb.svg?h=aad9d059abab45e38f162e05c1fa322f\" height=\"17px\"></a></td>\n</tr>\n<tr>\n<td style=\"text-align: center; padding: 10px 0;\" colspan=\"2\"><a href=\"https://braiins.com/farm-proxy/?utm_source=Grafana&utm_medium=Dashboard_panel\"  target=\"_blank\" style=\"display:block\"><img src=\"https://design.braiins.com/assets/img/logos/farm-proxy-logo-white-rgb.svg?h=3e5188e1d46f58ccb0b910c6f8184b9b\" height=\"30px\"></a></td>\n</tr>\n</table>",
+            "content": "<table width=\"100%\" style=\" border: none !important; table-layout: fixed; \" id=\"bps-table\">\n<tr>\n<td style=\"text-align: center; padding: 10px 0; width:50%;\"><a href=\"https://braiins.com/os-firmware?utm_source=Grafana&utm_medium=Dashboard_panel\" target=\"_blank\"><img src=\"/public/img/custom/braiins-os-logo-white.svg\" height=\"25px\" align=\"center\"></a></td>\n<td style=\"text-align: center; padding: 10px 0; width:50%;\"><a href=\"https://braiins.com/pool?utm_source=Grafana&utm_medium=Dashboard_panel\" target=\"_blank\"><img src=\"/public/img/custom/braiins-pool-logo-reverse-rgb.svg\" height=\"25px\"></a></td>\n</tr>\n<tr>\n<td style=\"text-align: center; padding: 10px 0;\"><a href=\"https://braiins.com/manager?utm_source=Grafana&utm_medium=Dashboard_panel\" target=\"_blank\" style=\"display:block\"><img src=\"/public/img/custom/braiins-manager-logo-white-rgb.svg\" height=\"25px\"></a></td>\n<td style=\"text-align: center; padding: 10px 0;\"><a href=\"https://braiins.com/toolbox?utm_source=Grafana&utm_medium=Dashboard_panel\" target=\"_blank\" style=\"display:block\"><img src=\"/public/img/custom/braiins-toolbox-logo-white-rgb.svg\" height=\"14px\"></a></td>\n</tr>\n<tr>\n<td style=\"text-align: center; padding: 10px 0;\"><a href=\"https://hashpower.braiins.com?utm_source=Grafana&utm_medium=Dashboard_panel\" target=\"_blank\" style=\"display:block\"><img src=\"/public/img/custom/braiins-hashpower-logo-white-rgb.svg\" height=\"18px\"></a></td>\n<td style=\"text-align: center; padding: 10px 0;\"><a href=\"https://braiins.com/farm-proxy?utm_source=Grafana&utm_medium=Dashboard_panel\" target=\"_blank\" style=\"display:block\"><img src=\"/public/img/custom/braiins-proxy-white-rgb.svg\" height=\"18px\"></a></td>\n</tr>\n</table>",
             "mode": "markdown"
           },
           "pluginVersion": "9.5.1",
@@ -140,7 +140,7 @@
             "type": "prometheus",
             "uid": "PABF2E7BD7AE7B0F4"
           },
-          "description": "Most recent Farm Proxy start date",
+          "description": "Days until certificate expires",
           "fieldConfig": {
             "defaults": {
               "mappings": [],
@@ -260,18 +260,6 @@
               "interval": "",
               "legendFormat": "started at:",
               "refId": "B"
-            },
-            {
-              "datasource": {
-                "type": "prometheus",
-                "uid": "PABF2E7BD7AE7B0F4"
-              },
-              "exemplar": true,
-              "expr": "",
-              "hide": false,
-              "interval": "",
-              "legendFormat": "",
-              "refId": "A"
             }
           ],
           "type": "stat"
@@ -665,7 +653,7 @@
       "description": "Shares received from miners",
       "fieldConfig": {
         "defaults": {
-          "decimals": 2,
+          "decimals": 0,
           "mappings": [],
           "thresholds": {
             "mode": "absolute",
@@ -746,7 +734,7 @@
             "uid": "PABF2E7BD7AE7B0F4"
           },
           "exemplar": true,
-          "expr": "sum(FP_accepted_shares{direction=\"down\", category=~\"$type\"})",
+          "expr": "sum(increase(FP_accepted_shares{direction=\"down\", category=~\"$type\"}[$__range]))",
           "hide": false,
           "interval": "",
           "legendFormat": "Accepted",
@@ -759,7 +747,7 @@
           },
           "editorMode": "code",
           "exemplar": true,
-          "expr": "sum(FP_rejected_shares{direction=\"down\", category=~\"$type\"})",
+          "expr": "sum(increase(FP_rejected_shares{direction=\"down\", category=~\"$type\"}[$__range]))",
           "hide": false,
           "interval": "",
           "legendFormat": "Invalid",
@@ -789,7 +777,7 @@
       "description": "Shares sent to target pool(s).",
       "fieldConfig": {
         "defaults": {
-          "decimals": 2,
+          "decimals": 0,
           "mappings": [],
           "thresholds": {
             "mode": "absolute",
@@ -870,7 +858,7 @@
             "uid": "PABF2E7BD7AE7B0F4"
           },
           "exemplar": true,
-          "expr": "sum(FP_accepted_shares{direction=\"up\", category=~\"$type\"})",
+          "expr": "sum(increase(FP_accepted_shares{direction=\"up\", category=~\"$type\"}[$__range]))",
           "hide": false,
           "interval": "",
           "legendFormat": "Accepted",
@@ -883,7 +871,7 @@
           },
           "editorMode": "code",
           "exemplar": true,
-          "expr": "sum(FP_rejected_shares{direction=\"up\",category=~\"$type\"})",
+          "expr": "sum(increase(FP_rejected_shares{direction=\"up\",category=~\"$type\"}[$__range]))",
           "hide": false,
           "interval": "",
           "legendFormat": "Invalid",
@@ -1418,7 +1406,7 @@
             "type": "prometheus",
             "uid": "PABF2E7BD7AE7B0F4"
           },
-          "description": "Overview of Brains OS+ licenses on devices connected to the Farm Proxy.",
+          "description": "Overview of Braiins OS licenses on devices connected to the Farm Proxy.",
           "fieldConfig": {
             "defaults": {
               "color": {
@@ -1514,7 +1502,7 @@
           "refId": "A"
         }
       ],
-      "title": "BOS+ licenses",
+      "title": "Devfee Licenses",
       "type": "row"
     },
     {

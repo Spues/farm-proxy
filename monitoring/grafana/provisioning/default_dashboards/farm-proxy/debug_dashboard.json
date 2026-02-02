@@ -1797,7 +1797,7 @@
         "type": "prometheus",
         "uid": "PABF2E7BD7AE7B0F4"
       },
-      "description": "Target can be marked as \"down\" from various reasons. Tarket in \"down\" status is not available for receiving hashrate.",
+      "description": "Target can be marked as \"down\" from various reasons. Target in \"down\" status is not available for receiving hashrate.",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -2108,7 +2108,7 @@
       ],
       "title": "Target Status History",
       "transformations": [],
-      "type": "status-history"
+      "type": "state-timeline"
     },
     {
       "collapsed": true,
@@ -2860,35 +2860,7 @@
                 ]
               }
             },
-            "overrides": [
-              {
-                "__systemRef": "hideSeriesFrom",
-                "matcher": {
-                  "id": "byNames",
-                  "options": {
-                    "mode": "exclude",
-                    "names": [
-                      "159.223.18.138:3333/BP ConnectionError",
-                      "159.223.239.132:3333/BP ConnectionError",
-                      "164.92.161.229:3333/BP ConnectionError",
-                      "165.22.46.160:3333/BP HighLatency"
-                    ],
-                    "prefix": "All except:",
-                    "readOnly": true
-                  }
-                },
-                "properties": [
-                  {
-                    "id": "custom.hideFrom",
-                    "value": {
-                      "legend": false,
-                      "tooltip": false,
-                      "viz": true
-                    }
-                  }
-                ]
-              }
-            ]
+            "overrides": []
           },
           "gridPos": {
             "h": 6,
@@ -3125,7 +3097,7 @@
           ],
           "title": "Target Status",
           "transformations": [],
-          "type": "status-history"
+          "type": "state-timeline"
         }
       ],
       "targets": [
