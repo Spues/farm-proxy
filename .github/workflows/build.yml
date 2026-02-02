@@ -7,17 +7,26 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4 # 升级到 v4
+      - name: Checkout Source
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive # 关键点：递归拉取所有依赖的子模块
+
+      - name: Install System Dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y protobuf-compiler pkg-config libssl-dev
 
       - name: Install Rust
         uses: dtolnay/rust-toolchain@stable
 
       - name: Build Binary
         run: |
-          cargo build --release
+          # --locked 确保使用项目指定的依赖版本，防止版本冲突
+          cargo build --release --locked
 
       - name: Upload Artifact
-        uses: actions/upload-artifact@v4 # 必须升级到 v4
+        uses: actions/upload-artifact@v4
         with:
-          name: braiins-proxy-x86-new-${{ github.run_id }} # 名称加 ID 确保唯一
+          name: braiins-proxy-x86-fixed
           path: target/release/braiins-farm-proxy
