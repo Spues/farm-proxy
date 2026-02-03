@@ -21,8 +21,7 @@ jobs:
       - name: Build Binary
         run: |
           # 如果 Cargo.toml 不在根目录，请先 cd 进入对应目录
-          cargo build --release --locked --verbose
-
+          cargo build --release --locked --verbose --manifest-path 03_full.toml
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
